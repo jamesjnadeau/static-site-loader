@@ -1,0 +1,30 @@
+{
+  "name": "static-site-loader",
+  "version": "0.0.1",
+  "description": "a simple static site loader for webpack that's easy to use and customize to your liking",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jamesjnadeau/static-site-loader.git"
+  },
+  "keywords": [
+    "webpack",
+    "static",
+    "site",
+    "generator"
+  ],
+  "author": "James J Nadeau",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jamesjnadeau/static-site-loader/issues"
+  },
+  "dependencies": {
+    "async": "^1.5.0",
+    "filewalker": "^0.1.2",
+    "loader-utils": "^0.2.12",
+    "path": "^0.12.7"
+  }
+}
