@@ -14,6 +14,7 @@ You will need to add a index.js file to content: `conten/index.js`. What's in it
 Here's a basic setup that will recursively parse those files and dump them into the `built` directory as a static site do do with as you please... upload to s3, view with `webpack-dev-server --content-base public/`, the possibilites are endless :sailboat:
 
 *webpack.config.js:*
+
 ```js
 var pathUtil = require('path');
 var marked = require('marked');
@@ -37,6 +38,9 @@ module.exports = {
   //perform any preprocessing tasks you might need here.
   //compile a template to use, read some config settings from ./conten/index.js as source
     preProcess: function(source) {
+      //watch the content directory for changes
+      this.addContextDependency(path);
+      //define the template file we'll use
       var template = 'template.jade';
       //watch the template for changes
       this.addDependency(template);

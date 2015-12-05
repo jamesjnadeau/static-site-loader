@@ -6,20 +6,12 @@ var async = require('async');
 var fs = require('fs');
 var pathUtil = require('path');
 
-
-
-
 module.exports = function(source, map) {
   var self = this;
   if(typeof self.options.staticSiteLoader === 'undefined') {
     self.emitError('You must define the staticSiteLoader options object to use this loader.');
   }
   var myOptions = self.options.staticSiteLoader;
-
-  //Pre-Processor function call
-  if(typeof myOptions.preProcess === 'function') {
-    myOptions.preProcess.apply(self, [source]);
-  }
 
   //declare as cacheable
   self.cacheable();
@@ -28,6 +20,11 @@ module.exports = function(source, map) {
   var callback = self.async();
 
   var contentPath = pathUtil.dirname(self.resourcePath);
+
+  //Pre-Processor function call
+  if(typeof myOptions.preProcess === 'function') {
+    myOptions.preProcess.apply(self, [source, contentPath]);
+  }
 
   //Assemble the paths
   async.waterfall([
@@ -38,8 +35,6 @@ module.exports = function(source, map) {
         if(typeof myOptions.preProcess === 'function') {
           //test if we should include file
           if(myOptions.testToInclude.apply(self, [path, stats, absPath])) {
-            //watch this file for changes
-            self.addDependency(path);
             //rewrite URL path
             if(typeof myOptions.rewriteUrlPath === 'function') {
               var urlPath = myOptions.rewriteUrlPath.apply(self, [path, stats, absPath]);
