@@ -37,7 +37,7 @@ module.exports = {
   staticSiteLoader: {
   //perform any preprocessing tasks you might need here.
   //compile a template to use, read some config settings from ./conten/index.js as source
-    preProcess: function(source) {
+    preProcess: function(source, path) {
       //watch the content directory for changes
       this.addContextDependency(path);
       //define the template file we'll use
