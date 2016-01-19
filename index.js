@@ -63,7 +63,6 @@ module.exports = function(source, map) {
           //rewrite files contents
           if(typeof myOptions.processFile === 'function') {
             //callback provided
-            console.log('FOUND LENGTH OF FUNCTION ARGS TO BE : ', myOptions.processFile.length)
             if(myOptions.processFile.length === 3) {
               myOptions.processFile.apply(self, [file, content, function(content){
                 self.emitFile(outputFileName, content);
