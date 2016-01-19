@@ -1,6 +1,6 @@
 {
   "name": "static-site-loader",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "a simple static site loader for webpack that's easy to use and customize to your liking",
   "main": "index.js",
   "scripts": {
