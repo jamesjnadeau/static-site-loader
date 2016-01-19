@@ -64,5 +64,11 @@ module.exports = {
       var content = marked(content.replace(picoCMSMetaPattern, ''));
       return this.template({content: content});
     }
+    ....
+    // or you can do the following for async content generation
+    processFile: function(file, content, callback) {
+      var content = marked(content.replace(picoCMSMetaPattern, ''));
+      callback(this.template({content: content}));
+    }
   }
 };

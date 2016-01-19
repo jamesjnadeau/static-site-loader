@@ -1,5 +1,3 @@
-// take a folder and return a fully mapped array of it's contents
-// this is currently geared towards markdown
 var loaderUtil = require('loader-utils');
 var filewalker = require('filewalker');
 var async = require('async');
@@ -64,10 +62,22 @@ module.exports = function(source, map) {
             .replace(/^(\/|\\)/, ''); // Remove leading slashes for webpack-dev-server
           //rewrite files contents
           if(typeof myOptions.processFile === 'function') {
-            content = myOptions.processFile.apply(self, [file, content]);
+            //callback provided
+            console.log('FOUND LENGTH OF FUNCTION ARGS TO BE : ', myOptions.processFile.length)
+            if(myOptions.processFile.length === 3) {
+              myOptions.processFile.apply(self, [file, content, function(content){
+                self.emitFile(outputFileName, content);
+                fileEmitted();
+              }]);
+            } else { //no callback
+              content = myOptions.processFile.apply(self, [file, content]);
+              self.emitFile(outputFileName, content);
+              fileEmitted();
+            }
+          } else { //no changes to content - output directly
+            self.emitFile(outputFileName, content);
+            fileEmitted();
           }
-          self.emitFile(outputFileName, content);
-          fileEmitted();
         });
       }, filesDone);
     }
