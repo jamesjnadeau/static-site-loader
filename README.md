@@ -1,5 +1,8 @@
 # static-site-loader
-a simple static site loader for webpack that's easy to use and customize to your liking.
+A simple static site loader for webpack that you can customize to your liking.
+It makes it easy to iterate over a file system, or interject content from any source you desire.
+Then you control the output path of your generated files. I built this so I could easily hook
+what I needed into the webpack build step.
 
 ## Example Usage
 
@@ -7,11 +10,11 @@ The following is an example use case, you can change and tweak it to your liking
 
 Let's say you have a project with a folder `content` that contains your sites files in markdown(or whatever you want to write your content in). These files happen to be structured how you would like your site to be structured.
 
-#### Step 1
-You will need to add a index.js file to content: `conten/index.js`. What's in it is up to you, it just needs to be there so webpack can open the folder.
+#### House keeping
+You will need to add a index.js file to content: `content/index.js`. What's in it is up to you, it just needs to be there so webpack can open the folder.
 
-#### Step 2
-Here's a basic setup that will recursively parse those files and dump them into the `built` directory as a static site do do with as you please... upload to s3, view with `webpack-dev-server --content-base public/`, the possibilites are endless :sailboat:
+#### Code it up
+Here's a basic setup that will recursively parse those files and dump them into the `built` directory as a static site to do with as you please... upload to s3, view with `webpack-dev-server --content-base public/`, the possibilites are endless :sailboat:
 
 *webpack.config.js:*
 
@@ -69,6 +72,11 @@ module.exports = {
     processFile: function(file, content, callback) {
       var content = marked(content.replace(picoCMSMetaPattern, ''));
       callback(this.template({content: content}));
+    }
+    ....
+    postProcess: function(files) {
+      // do something after all the files have been processed
+      // ex. collect links in previous steps and output an rss feed or site map
     }
   }
 };
