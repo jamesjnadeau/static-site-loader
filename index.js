@@ -30,7 +30,7 @@ module.exports = function(source, map) {
       var files = [];
       filewalker(contentPath)
         .on('file', function(path, stats, absPath) {
-        if(typeof myOptions.preProcess === 'function') {
+        if(typeof myOptions.testToInclude === 'function') {
           //test if we should include file
           if(myOptions.testToInclude.apply(self, [path, stats, absPath])) {
             //rewrite URL path
@@ -78,7 +78,12 @@ module.exports = function(source, map) {
             fileEmitted();
           }
         });
-      }, filesDone);
+      }, function() {
+        if(typeof myOptions.postProcess === 'function') {
+          myOptions.postProcess.apply(self, [files]);
+        }
+        filesDone();
+      });
     }
   ], function() {
     //console.log('Content Processing Done');
